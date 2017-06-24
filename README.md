@@ -2,7 +2,7 @@
 
 To compile:
 ```bash 
-g++ solution.cpp -lcurl -std=c++11
+g++ score.cpp -lcurl -std=c++11 -o score
 ```
 
 Usage: 
@@ -12,7 +12,7 @@ Usage:
 
 Example: 
 ```
-./a.out manuraj17 
+./score manuraj17 
 ```
 
 ### Dependencies 
