@@ -52,11 +52,20 @@ void fetch(string target){
 
 }
 
+int getScore(string event) {
+
+  if (scores.find(event) == scores.end()) {
+    return 1;
+  } else {
+    return scores[event];
+  }
+}
+
 int calculateScore() {
   auto result = json::parse(data);
   int total = 0;
   for (json::iterator it  = result.begin(); it != result.end(); ++it) {
-    total += scores[(*it)["type"]]; 
+    total += getScore((*it)["type"]); 
   }
   return total;
 }
