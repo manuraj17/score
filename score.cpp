@@ -18,26 +18,27 @@ unordered_map<string, int> scores { { "IssueEvent", 7},
                                     { "CreateEvent", 2},
                                     { "other", 1}};
 
-size_t writeCallback(char* buf, size_t size, size_t nmemb, void* up)
-{ //callback must have this declaration
-    //buf is a pointer to the data that curl has for us
-    //size*nmemb is the size of the buffer
+const string user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) \
+                           Chrome/58.0.3029.110 Safari/537.36";
 
-  for (unsigned int c = 0; c<size*nmemb; c++)
+size_t writeCallback(char* buf, size_t size, size_t nmemb, void* up)
+{ 
+  //callback must have this declaration
+  //buf is a pointer to the data that curl has for us
+  //size*nmemb is the size of the buffer
+
+  for (auto c = 0; c<size*nmemb; c++)
   {
-      data.push_back(buf[c]);
+    data.push_back(buf[c]);
   }
   return size*nmemb; //tell curl how many bytes we handled
 }
 
-string createURL(string username) {
-  return "https://api.github.com/users/" + username + "/events/public";
-}
-
 void fetch(string target){
 
-  string target_url = createURL(target);
+  string target_url = "https://api.github.com/users/" + target + "/events/public";
   const char *url = target_url.c_str();
+  const char *ua = user_agent.c_str();
 
   CURL* curl;
   curl_global_init(CURL_GLOBAL_ALL);
@@ -45,7 +46,7 @@ void fetch(string target){
   curl_easy_setopt(curl, CURLOPT_URL, url);
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
   // curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L); //tell curl to output its progress
-  curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+  curl_easy_setopt(curl, CURLOPT_USERAGENT, ua);
   curl_easy_perform(curl);
   curl_easy_cleanup(curl);
   curl_global_cleanup();
