@@ -2,12 +2,17 @@
 
 To compile:
 ```bash 
-g++ score.cpp -lcurl -std=c++11 -o score
+make
 ```
 
 Usage: 
 ```bash
-  ./a.out <username>
+  ./score <username>
+```
+
+Cleanup:
+```bash
+  make clean
 ```
 
 Example: 
